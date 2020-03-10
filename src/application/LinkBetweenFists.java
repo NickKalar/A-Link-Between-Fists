@@ -22,13 +22,11 @@ public class LinkBetweenFists extends GameApplication {
     protected void initSettings(GameSettings settings) { 
         settings.setWidth(1280);
         settings.setHeight(720);
-        settings.setTitle("Link Between Fists");
+        settings.setTitle("A Link Between Fists");
         settings.setVersion("1.0");
     }
 
     private Entity player;
-
-
 
     @Override
     protected void initPhysics() {
