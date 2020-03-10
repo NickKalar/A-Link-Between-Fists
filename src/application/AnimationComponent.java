@@ -27,10 +27,10 @@ public class AnimationComponent extends Component {
     // start frame and end frame are the individual sprite frames in sprite sheet starting from index 0. If there are a total of 50 sprites you can access which ever...
     // with the correct index number
     public AnimationComponent() {
-        animIdle = new AnimationChannel(FXGL.image("tempSprite.png"), 5, 90, 90, Duration.seconds(1), 9, 9);
-        animWalk = new AnimationChannel(FXGL.image("tempSprite.png"), 5, 90, 90, Duration.seconds(1), 5, 8);
-        animUp = new AnimationChannel(FXGL.image("tempSprite.png"), 5, 90, 90, Duration.seconds(1), 10, 14);
-        animDown = new AnimationChannel(FXGL.image("tempSprite.png"), 5, 90, 90, Duration.seconds(1), 15, 19);
+        animIdle = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 0, 1);
+        animWalk = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 4, 5);
+        animUp = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 2, 3);
+        animDown = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 0, 1);
 
 
         texture = new AnimatedTexture(animIdle);
