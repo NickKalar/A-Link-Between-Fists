@@ -15,6 +15,11 @@ import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
+/* Create spawns for different items to be called when needed
+* @Author Edwin Hernandez
+* @Version 3/9/20
+*/
+
 public class ItemFactory implements EntityFactory {
     
     @Spawns("bow")

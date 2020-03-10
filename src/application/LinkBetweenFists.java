@@ -28,6 +28,28 @@ public class LinkBetweenFists extends GameApplication {
     }
 
     private Entity player;
+    @Override
+    protected void initGame() {
+        player = FXGL.entityBuilder()
+                .type(EntityType.PLAYER) 
+                .at(200, 200) //where to spawn (px,px)
+                .bbox(new HitBox(BoundingShape.box(70, 60))) //creating a hitbox around the player in order to use collisions
+                .with(new AnimationComponent()) //tell entity builder we have created animations for player
+                .with(new CollidableComponent(true)) //collisions = true
+                .buildAndAttach(); //build and attach to game world
+
+        getGameWorld().addEntityFactory(new ItemFactory());
+        run(() -> spawn("bow", FXGLMath.random(10, 1100), FXGLMath.random(10, 700)), Duration.seconds(1));
+
+
+        // FXGL.entityBuilder()
+        // .type(EntityType.BOW)
+        // .at(500,200)
+        // .viewWithBBox("bow.png")
+        // .with(new CollidableComponent(true))
+        // .buildAndAttach();
+        
+    }
 
     @Override
     protected void initPhysics() {
