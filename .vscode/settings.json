@@ -15,6 +15,7 @@
         "c:\\software\\javafx-sdk-13.0.2\\lib\\javafx.media.jar",
         "c:\\software\\javafx-sdk-13.0.2\\lib\\javafx.swing.jar",
         "c:\\software\\javafx-sdk-13.0.2\\lib\\javafx.web.jar",
-        "c:\\software\\javafx-sdk-13.0.2\\lib\\javafx-swt.jar"
+        "c:\\software\\javafx-sdk-13.0.2\\lib\\javafx-swt.jar",
+        "c:\\Program Files\\Java\\jdk1.8.0_241\\lib\\fxgl-11.8-uber.jar"
     ]
 }
