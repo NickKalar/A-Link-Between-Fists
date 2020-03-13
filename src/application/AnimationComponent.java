@@ -19,7 +19,7 @@ public class AnimationComponent extends Component {
     private String direction = null;
 
     private AnimatedTexture texture;
-    private AnimationChannel animIdle, animWalk;
+    private AnimationChannel animIdle, animLeft, animRight;
     private AnimationChannel animUp, animDown;
 
     // creating new animations for specific actions being used in game.
@@ -27,10 +27,11 @@ public class AnimationComponent extends Component {
     // start frame and end frame are the individual sprite frames in sprite sheet starting from index 0. If there are a total of 50 sprites you can access which ever...
     // with the correct index number
     public AnimationComponent() {
-        animIdle = new AnimationChannel(FXGL.image("tempSprite.png"), 5, 90, 90, Duration.seconds(1), 9, 9);
-        animWalk = new AnimationChannel(FXGL.image("tempSprite.png"), 5, 90, 90, Duration.seconds(1), 5, 8);
-        animUp = new AnimationChannel(FXGL.image("tempSprite.png"), 5, 90, 90, Duration.seconds(1), 10, 14);
-        animDown = new AnimationChannel(FXGL.image("tempSprite.png"), 5, 90, 90, Duration.seconds(1), 15, 19);
+        animIdle = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 0, 1);
+        animLeft = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 6, 7);
+        animRight = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 4, 5);
+        animUp = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 2, 3);
+        animDown = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 0, 1);
 
 
         texture = new AnimatedTexture(animIdle);
@@ -50,34 +51,22 @@ public class AnimationComponent extends Component {
             switch(direction) {
                 case "right":
                     entity.translateX(speed * tpf);
-
-                    if(texture.getAnimationChannel() == animIdle) 
-                        texture.loopAnimationChannel(animWalk);
-
+                    texture.loopAnimationChannel(animRight);
                 break;
 
                 case "left":
                     entity.translateX(speed * tpf);
-
-                    if(texture.getAnimationChannel() == animIdle) 
-                        texture.loopAnimationChannel(animWalk);
-                
+                    texture.loopAnimationChannel(animRight);
                 break;
 
                 case "up":
-                entity.translateY(speed * tpf);
-
-                if(texture.getAnimationChannel() == animIdle)
+                    entity.translateY(speed * tpf);
                     texture.loopAnimationChannel(animUp);
-
                 break;
                 
                 case "down":
-                entity.translateY(speed * tpf);
-
-                if(texture.getAnimationChannel() == animIdle)
+                    entity.translateY(speed * tpf);
                     texture.loopAnimationChannel(animDown);
-
                 break;
             }
             
