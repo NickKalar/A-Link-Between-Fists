@@ -33,7 +33,6 @@ public class AnimationComponent extends Component {
         animUp = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 2, 3);
         animDown = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 0, 1);
 
-
         texture = new AnimatedTexture(animIdle);
     }
 
