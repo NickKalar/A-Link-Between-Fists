@@ -31,6 +31,4 @@ public class ItemFactory implements EntityFactory {
             .collidable()
             .build();
     }
-
-
 }

@@ -9,6 +9,9 @@ import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
+import com.studiohartman.jamepad.ControllerManager;
+import com.studiohartman.jamepad.ControllerState;
+
 import javafx.scene.input.KeyCode;
 import static com.almasb.fxgl.dsl.FXGL.*;
 import javafx.util.Duration;
@@ -28,6 +31,7 @@ public class LinkBetweenFists extends GameApplication {
     }
 
     private Entity player;
+    private ControllerManager controllers;
     @Override
     protected void initGame() {
         player = FXGL.entityBuilder()
@@ -40,15 +44,9 @@ public class LinkBetweenFists extends GameApplication {
 
         getGameWorld().addEntityFactory(new ItemFactory());
         run(() -> spawn("bow", FXGLMath.random(10, 1100), FXGLMath.random(10, 700)), Duration.seconds(1));
-
-
-        // FXGL.entityBuilder()
-        // .type(EntityType.BOW)
-        // .at(500,200)
-        // .viewWithBBox("bow.png")
-        // .with(new CollidableComponent(true))
-        // .buildAndAttach();
         
+        controllers = new ControllerManager();
+        controllers.initSDLGamepad();        
     }
 
     @Override
@@ -56,6 +54,7 @@ public class LinkBetweenFists extends GameApplication {
         onCollisionBegin(EntityType.PLAYER, EntityType.BOW, (player, bow) -> {
             bow.removeFromWorld();
         });
+
     }   
 
 
@@ -72,8 +71,17 @@ public class LinkBetweenFists extends GameApplication {
 
         FXGL.getInput().addAction(new UserAction("Up") {
             @Override
+            protected void onActionBegin() {
+                System.out.println("begin");
+            }
+            @Override
             protected void onAction() {
                 player.getComponent(AnimationComponent.class).moveUp();
+            }
+            @Override
+            protected void onActionEnd() {
+                System.out.println("end");
+
             }
         }, KeyCode.W);
 
@@ -86,22 +94,69 @@ public class LinkBetweenFists extends GameApplication {
 
         FXGL.getInput().addAction(new UserAction("Down") {
             @Override
+            protected void onActionBegin() {
+                System.out.println("begin");
+            }
+            @Override
             protected void onAction() {
                 player.getComponent(AnimationComponent.class).moveDown();
+            }
+            @Override
+            protected void onActionEnd() {
+                System.out.println("end");
+
             }
         }, KeyCode.S);
     }
 
+    /* Controller support
+    * @author Edwin Hernandez
+    * @version 3/16/20
+    */
 
- 
-    // private void spawnBow() {
-    //     FXGL.entityBuilder()
-    //         .type(EntityType.BOW)
-    //         .at(FXGLMath.random(150, getAppWidth() - 100), random(0, getAppHeight()))
-    //         .viewWithBBox("bow.png")
-    //         .collidable()
-    //         .buildAndAttach();
-    // }
+    @Override
+    protected void onUpdate(double tpf) {
+        ControllerState currState = controllers.getState(0);
+
+        if(currState.a) {
+            System.out.println("currState.a");
+        }
+        if(currState.b) {
+            System.out.println("currState.b");
+        }
+        if(currState.dpadDown) {
+            getInput().mockKeyPress(KeyCode.S);
+        } else {
+            getInput().mockKeyRelease(KeyCode.S);
+        }
+        if(currState.dpadLeft) {
+            getInput().mockKeyPress(KeyCode.A);
+        } else {
+            getInput().mockKeyRelease(KeyCode.A);
+        }
+        if(currState.dpadRight) {
+            getInput().mockKeyPress(KeyCode.D);
+        } else {
+            getInput().mockKeyRelease(KeyCode.D);
+        }
+        if(currState.dpadUp) {
+            getInput().mockKeyPress(KeyCode.W);
+        } else {
+            getInput().mockKeyRelease(KeyCode.W);
+        }
+        if(currState.rb) {
+            System.out.println("currState.rb");
+        }
+        if(currState.x) {
+            System.out.println("currState.x");
+        }
+        if(currState.y) {
+            System.out.println("currState.y");
+        }
+        if(currState.start) {
+            System.out.println("currState.start");
+        }
+    }
 
 
 
@@ -154,15 +209,15 @@ public class LinkBetweenFists extends GameApplication {
     //         link.animation.play();
     //         link.animation.setOffsetY(64);
     //         link.moveY(-2);
-    //     } else if (isPressed(KeyCode.DOWN)){
+    //     } if (isPressed(KeyCode.DOWN)){
     //         link.animation.play();
     //         link.animation.setOffsetY(0);
     //         link.moveY(2);
-    //     } else if (isPressed(KeyCode.RIGHT)) {
+    //     } if (isPressed(KeyCode.RIGHT)) {
     //         link.animation.play();
     //         link.animation.setOffsetY(92);
     //         link.moveX(2);
-    //     } else if (isPressed(KeyCode.LEFT)) {
+    //     } if (isPressed(KeyCode.LEFT)) {
     //         link.animation.play();
     //         link.animation.setOffsetY(31);
     //         link.moveX(-2);

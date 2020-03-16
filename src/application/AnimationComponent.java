@@ -50,22 +50,26 @@ public class AnimationComponent extends Component {
             switch(direction) {
                 case "right":
                     entity.translateX(speed * tpf);
-                    texture.loopAnimationChannel(animRight);
+                    if(texture.getAnimationChannel() != animRight) 
+                        texture.loopAnimationChannel(animRight);
                 break;
 
                 case "left":
                     entity.translateX(speed * tpf);
-                    texture.loopAnimationChannel(animRight);
+                    if(texture.getAnimationChannel() != animRight) 
+                        texture.loopAnimationChannel(animRight);
                 break;
 
                 case "up":
                     entity.translateY(speed * tpf);
-                    texture.loopAnimationChannel(animUp);
+                    if(texture.getAnimationChannel() != animUp) 
+                        texture.loopAnimationChannel(animUp);
                 break;
                 
                 case "down":
                     entity.translateY(speed * tpf);
-                    texture.loopAnimationChannel(animDown);
+                    if(texture.getAnimationChannel() != animDown) 
+                        texture.loopAnimationChannel(animDown);
                 break;
             }
             
