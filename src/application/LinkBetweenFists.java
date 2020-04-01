@@ -28,6 +28,7 @@ public class LinkBetweenFists extends GameApplication {
         settings.setHeight(720);
         settings.setTitle("A Link Between Fists");
         settings.setVersion("1.0");
+        settings.setAppIcon("icon.png");
     }
 
     private Entity player;

@@ -31,4 +31,14 @@ public class ItemFactory implements EntityFactory {
             .collidable()
             .build();
     }
+
+    @Spawns("bomb")
+    public Entity newBomb(SpawnData data) {
+        return entityBuilder()
+        .type(EntityType.BOMB)
+        .from(data)
+        .viewWithBBox("bomb.png")
+        .collidable()
+        .build();
+    }
 }

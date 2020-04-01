@@ -11,9 +11,11 @@ import javafx.util.Duration;
  * @author Nicholas Kalar
  * @version 3/8/2020
  */
+
 public class Link extends Pane {
     static int health = 6;
     static int swordLevel = 0;
+    static Weapon weapon = null;
     ImageView imageView;
     int count = 3;
     int colums = 4;
@@ -47,5 +49,65 @@ public class Link extends Pane {
             if(right) this.setTranslateY(this.getTranslateY() + 1);
                 else this.setTranslateY(this.getTranslateY() - 1);
         }
+    }
+
+    public int getHealth() { return health; }
+
+    public int getSword() { return swordLevel; }
+
+    public void onWeaponPickup() {
+        //if no weapon, add weapon and remove from screen
+        //else, ignore and don't remove weapon from screen
+    }
+
+    public void useWeapon() {
+        //check for weapon
+        //if bomb do placeBomb()
+        //if arrow do shootArrow()
+    }
+    private void updateHealth(int damage) {
+        health -= damage;
+        if(getHealth() <= 0){
+            //kill link
+        } else {
+            //update UI
+        }
+    }
+
+    
+    public void onDeath() {
+        //play death animation
+        //respawn after a second or two
+    }
+
+    public void onRevive() {
+        //make sword level 1, remove weapon, health set to 6
+    }
+    public void onKill() {
+        //increment kill counter
+    }
+
+    public void onDamaged(int damage) {
+        //play damage animation
+        //prevent anymore damage from being take for a short time
+        //push character back?
+        updateHealth(damage);
+    }
+
+    public int swordSwing() {
+        //make sure cooldown has passed so you only swing once very so often
+        //start cooldown of swing happens
+        //if contacts a character return sword level
+        //else 
+        return 0;
+    }
+
+    private void placeBomb(){
+        //place bomb
+    }
+
+    private void shootArrow() {
+        //check direction link is pointed
+        //shot arrow in that direction
     }
 }
