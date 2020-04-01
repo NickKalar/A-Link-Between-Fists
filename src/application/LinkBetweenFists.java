@@ -3,18 +3,32 @@ package src.application;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.math.FXGLMath;
+import com.almasb.fxgl.core.util.LazyValue;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.pathfinding.CellMoveComponent;
+import com.almasb.fxgl.pathfinding.CellState;
+import com.almasb.fxgl.pathfinding.astar.AStarGrid;
+import com.almasb.fxgl.pathfinding.astar.AStarMoveComponent;
 import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.CollisionResult;
 import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
+import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.studiohartman.jamepad.ControllerManager;
 import com.studiohartman.jamepad.ControllerState;
 
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import static com.almasb.fxgl.dsl.FXGL.*;
 import javafx.util.Duration;
+import kotlin.Result;
+
+import static src.application.EntityType.*;
+
 /**
  * This file is the main class for the program and will be used to execute the game
  * @author Nicholas Kalar
@@ -24,27 +38,38 @@ import javafx.util.Duration;
 public class LinkBetweenFists extends GameApplication {
     @Override
     protected void initSettings(GameSettings settings) { 
-        settings.setWidth(1280);
-        settings.setHeight(720);
+        settings.setWidth(24 * 64 );
+        settings.setHeight(16 * 64);
         settings.setTitle("A Link Between Fists");
         settings.setVersion("1.0");
         settings.setAppIcon("icon.png");
     }
+/**
+ * Began adding basic wall collision, still needs to be polished
+ * @author Edwin Hernandez
+ * @version 4/1/2020
+ */
 
     private Entity player;
+    private Entity player2;
     private ControllerManager controllers;
     @Override
     protected void initGame() {
-        player = FXGL.entityBuilder()
-                .type(EntityType.PLAYER) 
-                .at(200, 200) //where to spawn (px,px)
-                .bbox(new HitBox(BoundingShape.box(70, 60))) //creating a hitbox around the player in order to use collisions
-                .with(new AnimationComponent()) //tell entity builder we have created animations for player
-                .with(new CollidableComponent(true)) //collisions = true
-                .buildAndAttach(); //build and attach to game world
-
         getGameWorld().addEntityFactory(new ItemFactory());
-        run(() -> spawn("bow", FXGLMath.random(10, 1100), FXGLMath.random(10, 700)), Duration.seconds(1));
+        FXGL.setLevelFromMap("forest.tmx");
+        
+        AStarGrid grid = AStarGrid.fromWorld(getGameWorld(), 24, 16, 64, 64, (type) -> {
+            if (type == BUSH)
+                return CellState.NOT_WALKABLE;
+
+            return CellState.WALKABLE;
+        });
+
+        set("grid", grid);
+        player = getGameWorld().spawn("player");
+        player2 = getGameWorld().spawn("player2");
+
+        run(() -> spawn("bow", FXGLMath.random(10, 1100), FXGLMath.random(10, 700)), Duration.seconds(5));
         
         controllers = new ControllerManager();
         controllers.initSDLGamepad();        
@@ -56,9 +81,8 @@ public class LinkBetweenFists extends GameApplication {
             bow.removeFromWorld();
         });
 
+
     }   
-
-
 
     // ties in the animation class with the inputs from keyboard.
     @Override
@@ -108,6 +132,41 @@ public class LinkBetweenFists extends GameApplication {
 
             }
         }, KeyCode.S);
+
+        FXGL.getInput().addAction(new UserAction("CRight") {
+            @Override
+            protected void onAction() {
+                player2.getComponent(Player2.class).moveRight();
+
+
+            }
+        }, KeyCode.L);
+
+        FXGL.getInput().addAction(new UserAction("CUp") {
+
+            @Override
+            protected void onAction() {
+                player2.getComponent(Player2.class).moveUp();
+
+            }
+
+        }, KeyCode.I);
+
+        FXGL.getInput().addAction(new UserAction("CLeft") {
+            @Override
+            protected void onAction() {
+                player2.getComponent(Player2.class).moveLeft();
+            }
+        }, KeyCode.J);
+
+        FXGL.getInput().addAction(new UserAction("CDown") {
+            @Override
+            protected void onAction() {
+                player2.getComponent(Player2.class).moveDown();
+
+            }
+
+        }, KeyCode.K);
     }
 
     /* Controller support
