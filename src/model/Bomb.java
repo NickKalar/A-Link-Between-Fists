@@ -7,12 +7,12 @@ public class Bomb extends Weapon {
         setSprite("bomb.png", 1, 64, 64, 0);
     }
 
-    public void placedBomb() {
+    public void onPlaced() {
         //set bomb on tile
         //set timer to explode after 3 seconds
     }
 
-    public void bombBoom() {
+    public void onExplosion() {
         //update sprite to bomb explosion in a 9x9 grid centering on the original bomb placement
         //deal damage to anyone within the blast radius
         updateCharges();
