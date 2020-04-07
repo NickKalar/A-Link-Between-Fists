@@ -50,13 +50,12 @@ public class AnimationComponent extends Component {
     // which ever...
     // with the correct index number
     public AnimationComponent() {
-        animIdle = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 0, 1);
-        animLeft = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 6, 7);
-        animRight = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 4, 5);
-        animUp = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 2, 3);
-        animDown = new AnimationChannel(FXGL.image("link1.png"), 2, 112, 128, Duration.seconds(1), 0, 1);
+        animIdle = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 0, 1);
+        animLeft = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 6, 7);
+        animRight = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 4, 5);
+        animUp = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 2, 3);
+        animDown = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 0, 1);
         swordAttack = new AnimationChannel(FXGL.image("link1_attacklr.png"), 1, 128, 64, Duration.seconds(1), 0, 0);
-
         texture = new AnimatedTexture(animIdle);
     }
 

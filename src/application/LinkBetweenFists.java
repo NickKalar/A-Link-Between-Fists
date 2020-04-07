@@ -50,6 +50,15 @@ public class LinkBetweenFists extends GameApplication {
     private Entity player;
     private Entity player2;
     private ControllerManager controllers;
+
+    @Override
+    protected void onPreInit() {
+        FXGL.getSettings().setGlobalSoundVolume(0.5);
+        FXGL.getSettings().setGlobalMusicVolume(0.5);
+
+        FXGL.loopBGM("LOZ_Forest.mp3");
+    }
+
     @Override
     protected void initGame() {
         getGameWorld().addEntityFactory(new ItemFactory());
