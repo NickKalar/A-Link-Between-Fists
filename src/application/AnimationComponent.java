@@ -35,9 +35,11 @@ public class AnimationComponent extends Component {
 
     private int speed = 0;
     private String direction = null;
+    private String attack = null;
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animLeft, animRight;
     private AnimationChannel animUp, animDown;
+    private AnimationChannel swordAttack;
 
     // creating new animations for specific actions being used in game.
     // how to use: FXGL.image("file name"), sprite frames per row, single sprite
@@ -53,7 +55,7 @@ public class AnimationComponent extends Component {
         animRight = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 4, 5);
         animUp = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 2, 3);
         animDown = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 0, 1);
-
+        swordAttack = new AnimationChannel(FXGL.image("link1_attacklr.png"), 1, 128, 64, Duration.seconds(1), 0, 0);
         texture = new AnimatedTexture(animIdle);
     }
 
@@ -116,16 +118,29 @@ public class AnimationComponent extends Component {
                     } 
                  }
                 break;
-            }
 
+            case "sword":
+                    if(texture.getAnimationChannel() != swordAttack)
+                        texture.loopAnimationChannel(swordAttack);
+                    break;
+            }
+        } 
             speed = (int) (speed * 0.9);
 
             if (FXGLMath.abs(speed) < 1) {
                 speed = 0;
-                texture.loopAnimationChannel(animIdle);
+                if(texture.getAnimationChannel() != animIdle)
+                    texture.loopAnimationChannel(animIdle);
             }
+            if(attack != null){
 
-        }
+            switch(attack) {
+                case "sword": 
+                    if(texture.getAnimationChannel() != swordAttack)
+                        texture.loopAnimationChannel(swordAttack);
+                    attack = null;
+                break;
+            }}
 
 
     }
@@ -149,6 +164,11 @@ public class AnimationComponent extends Component {
     public void moveDown() {
         speed = 110;
         direction = "down";
+    }
+
+    public void swordAttack() {
+        attack = "sword";
+        // System.out.println("att");
     }
 
 
