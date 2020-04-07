@@ -48,11 +48,11 @@ public class Player2 extends Component {
     // which ever...
     // with the correct index number
     public Player2() {
-        animIdle = new AnimationChannel(FXGL.image("link2.png"), 2, 112, 128, Duration.seconds(1), 0, 1);
-        animLeft = new AnimationChannel(FXGL.image("link2.png"), 2, 112, 128, Duration.seconds(1), 6, 7);
-        animRight = new AnimationChannel(FXGL.image("link2.png"), 2, 112, 128, Duration.seconds(1), 4, 5);
-        animUp = new AnimationChannel(FXGL.image("link2.png"), 2, 112, 128, Duration.seconds(1), 2, 3);
-        animDown = new AnimationChannel(FXGL.image("link2.png"), 2, 112, 128, Duration.seconds(1), 0, 1);
+        animIdle = new AnimationChannel(FXGL.image("link3_walk.png"), 2, 64, 64, Duration.seconds(1), 0, 1);
+        animLeft = new AnimationChannel(FXGL.image("link3_walk.png"), 2, 64, 64, Duration.seconds(1), 6, 7);
+        animRight = new AnimationChannel(FXGL.image("link3_walk.png"), 2, 64, 64, Duration.seconds(1), 4, 5);
+        animUp = new AnimationChannel(FXGL.image("link3_walk.png"), 2, 64, 64, Duration.seconds(1), 2, 3);
+        animDown = new AnimationChannel(FXGL.image("link3_walk.png"), 2, 64, 64, Duration.seconds(1), 0, 1);
 
         texture = new AnimatedTexture(animIdle);
     }
