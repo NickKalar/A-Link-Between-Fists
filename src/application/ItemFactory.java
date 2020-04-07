@@ -48,13 +48,18 @@ public class ItemFactory implements EntityFactory {
         .build();
     }
 
+    /**
+     * fixed issue on why wall detections we're working, was using tile size vs object size created from map maker (SMH!)
+     * @author Edwin Hernandez
+     * @version 4/6/20
+     */
+
     @Spawns("bush")
     public Entity newBush(SpawnData data) {
         return entityBuilder()
                 .type(BUSH)
                 .from(data)
-                .bbox(new HitBox(BoundingShape.box(40, 40)))
-                .zIndex(-1)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
                 .build();
     }
 /**
@@ -68,11 +73,9 @@ public class ItemFactory implements EntityFactory {
     public Entity newPlayer(SpawnData data) {
         return entityBuilder()
                 .type(PLAYER)
-                .bbox(new HitBox(new Point2D(4,4), BoundingShape.box(40,40)))
+                .bbox(new HitBox(BoundingShape.box(60,60)))
                 .at(150,150)
                 .with(new CollidableComponent(true))
-                .with(new CellMoveComponent(64, 64, 100).allowRotation(false))
-                .with(new AStarMoveComponent(new LazyValue<>(() -> geto("grid"))))
                 .with(new AnimationComponent())
                 .build();
     }
@@ -80,8 +83,8 @@ public class ItemFactory implements EntityFactory {
     @Spawns("player2")
     public Entity newPlayer2(SpawnData data) {
         return entityBuilder()
-                .type(PLAYER)
-                .bbox(new HitBox(new Point2D(4,4), BoundingShape.box(55,55)))
+                .type(PLAYER2)
+                .bbox(new HitBox(BoundingShape.box(60,60)))
                 .at(900,100)
                 .with(new CollidableComponent(true))
                 .with(new CellMoveComponent(64, 64, 100).allowRotation(false))

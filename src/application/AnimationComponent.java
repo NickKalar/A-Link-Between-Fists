@@ -6,6 +6,7 @@ import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.entity.components.BoundingBoxComponent;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.entity.components.TypeComponent;
 import com.almasb.fxgl.pathfinding.Cell;
@@ -17,9 +18,13 @@ import com.almasb.fxgl.physics.box2d.collision.Collision;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import static src.application.EntityType.*;
+
+import java.util.List;
+
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
 import static com.almasb.fxgl.dsl.FXGL.*;
+
 
 /*
 * Basic sprite animation and movement
@@ -29,10 +34,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 public class AnimationComponent extends Component {
 
     private int speed = 0;
-    private String direction = "none";
-    private CellMoveComponent moveComponent;
-    private AStarMoveComponent astar;
-
+    private String direction = null;
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animLeft, animRight;
     private AnimationChannel animUp, animDown;
@@ -61,117 +63,59 @@ public class AnimationComponent extends Component {
         entity.getViewComponent().addChild(texture);
     }
 
+    public List<Entity> wall;
     // on update can be seen as a loop, it is always checking for input
     @Override
     public void onUpdate(double tpf) {
-        var x = moveComponent.getCellX();
-        var y = moveComponent.getCellY();
-        // astar.moveToCell(1, 3);
-
-        // if(!astar.isMoving()) {
-        // astar.getGrid().getRandomCell(c -> c.getState().isWalkable())
-        // .ifPresent(cell -> {
-        // astar.moveToCell(1, 4);
-        // System.out.println(x);
-        // System.out.println(y);
-
-        // if(!astar.isMoving()){
-
-        // astar.getGrid()
-        //                 .getRandomCell(c -> c.getState().isWalkable())
-        //                 .ifPresent(cell -> {
-        //                     // astar.moveToCell( (int) (speed * tpf), cell.getY());
-        //                 //  entity.translateY(speed * tpf);
-        //                 // astar.moveToCell(x, y);
-        //                 astar.moveToDownCell();
-        //                 System.out.println("hello");
-
-        //                 });
-        //             }
-
-
-        // });
-        // }
-
+        if(wall == null)
+            wall = FXGL.getGameWorld().getEntitiesByType(BUSH,PLAYER2);
+     
         if (speed != 0) {
         switch (direction) {
             case "right":
                 if (texture.getAnimationChannel() != animRight)
                     texture.loopAnimationChannel(animRight);
-                    astar.getGrid()
-                    .getRight(x,y).filter(c -> c.getState().isWalkable())
-                    .ifPresent(cell -> {
-                        // astar.moveToCell(cell.getX(), cell.getY());
-                     entity.translateX(speed * tpf);
-                    // astar.moveToCell(x, y);
+                
+                entity.translateX(speed * tpf);      
+                for (int i = 0; i < wall.size(); i++) {
+                    if(entity.isColliding(wall.get(i))) {
+                        entity.translateX(-speed*tpf);
+                    } 
+                 }            
+                break;
 
-                    });
+            case "left":
+                if (texture.getAnimationChannel() != animLeft)
+                    texture.loopAnimationChannel(animLeft);                    
+                entity.translateX(speed * tpf);
+                for (int i = 0; i < wall.size(); i++) {
+                    if(entity.isColliding(wall.get(i))) {
+                        entity.translateX(-speed*tpf);
+                    } 
+                 }
+                break;
 
-                // if (astar.getGrid().getRight(x, y).filter(c -> c.getState().isWalkable()).isPresent()) {
-                    // entity.translateX(speed * tpf);
-                    // astar.moveToRightCell();
-                    // astar.moveToCell(x, y);
-                        // }
-                    
-                    break;
+            case "up":
+                if (texture.getAnimationChannel() != animUp)
+                    texture.loopAnimationChannel(animUp);
+                entity.translateY(speed * tpf);
+                for (int i = 0; i < wall.size(); i++) {
+                    if(entity.isColliding(wall.get(i))) {
+                        entity.translateY(-speed*tpf);
+                    } 
+                 }
+                break;
 
-                case "left":
-                    if (texture.getAnimationChannel() != animLeft)
-                        texture.loopAnimationChannel(animLeft);
-                    //     if (astar.getGrid().getLeft(x, y).filter(c -> c.getState().isWalkable()).isPresent()) {
-                            // entity.translateX(speed * tpf);
-                    //         astar.moveToLeftCell();
-                    //     }
-                    astar.getGrid()
-                    .getLeft(x,y).filter(c -> c.getState().isWalkable())
-                    .ifPresent(cell -> {
-                        // astar.moveToCell(cell.getX(), cell.getY());
-                     entity.translateX(speed * tpf);
-                    // astar.moveToCell(x, y);
-
-                    });
-                    
-                    break;
-
-                case "up":
-                    if (texture.getAnimationChannel() != animUp)
-                        texture.loopAnimationChannel(animUp);
-                    // if (astar.getGrid().getUp(x, y).filter(c -> c.getState().isWalkable()).isPresent()) {
-                        // entity.translateY(speed * tpf);
-                    //     astar.moveToUpCell();
-                    // }
-                    astar.getGrid()
-                    .getUp(x,y).filter(c -> c.getState().isWalkable())
-                    .ifPresent(cell -> {
-                        // astar.moveToCell(cell.getX(), cell.getY());
-                    //  entity.translateX(speed * tpf);
-                    // astar.moveToCell(x, y);
-                    entity.translateY(speed * tpf);
-                    // System.out.println("SUPPPPPPPP!!!!!");
-
-
-                    });
-                    break;
-
-                case "down":
-                    if (texture.getAnimationChannel() != animDown)
-                        texture.loopAnimationChannel(animDown);
-
-                    // if (astar.getGrid().getDown(x, y).filter(c -> c.getState().isWalkable()).isPresent()) {
-                    //     // entity.translateY(speed * tpf);
-                    //     astar.moveToDownCell();
-                    // }
-                    astar.getGrid()
-                    .getDown(x,y).filter(c -> c.getState().isWalkable())
-                    .ifPresent(cell -> {
-                        // astar.moveToCell(cell.getX(), cell.getY());
-                    //  entity.translateX(speed * tpf);
-                    // astar.moveToCell(x, y);
-                    entity.translateY(speed * tpf);
-
-
-                    });
-                    break;
+            case "down":
+                if (texture.getAnimationChannel() != animDown)
+                    texture.loopAnimationChannel(animDown);
+                entity.translateY(speed * tpf);
+                for (int i = 0; i < wall.size(); i++) {
+                    if(entity.isColliding(wall.get(i))) {
+                        entity.translateY(-speed*tpf);
+                    } 
+                 }
+                break;
             }
 
             speed = (int) (speed * 0.9);
@@ -184,27 +128,26 @@ public class AnimationComponent extends Component {
         }
 
 
-
     }
 
     public void moveRight() {
-        speed = 125;
+        speed = 110;
         direction = "right";
     }
 
     public void moveLeft() {
-        speed = -125;
+        speed = -110;
         direction = "left";
 
     }
 
     public void moveUp() {
-        speed = -125;
+        speed = -110;
         direction = "up";
     }
 
     public void moveDown() {
-        speed = 125;
+        speed = 110;
         direction = "down";
     }
 

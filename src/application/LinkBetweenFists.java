@@ -1,33 +1,28 @@
 package src.application;
 
+import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGL.getInput;
+import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
+import static com.almasb.fxgl.dsl.FXGL.run;
+import static com.almasb.fxgl.dsl.FXGL.set;
+import static com.almasb.fxgl.dsl.FXGL.spawn;
+import static src.application.EntityType.BUSH;
+
+import java.util.List;
+
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.math.FXGLMath;
-import com.almasb.fxgl.core.util.LazyValue;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.pathfinding.CellMoveComponent;
 import com.almasb.fxgl.pathfinding.CellState;
 import com.almasb.fxgl.pathfinding.astar.AStarGrid;
-import com.almasb.fxgl.pathfinding.astar.AStarMoveComponent;
-import com.almasb.fxgl.physics.BoundingShape;
-import com.almasb.fxgl.physics.CollisionResult;
-import com.almasb.fxgl.physics.HitBox;
-import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
-import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.studiohartman.jamepad.ControllerManager;
 import com.studiohartman.jamepad.ControllerState;
 
-import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
-import static com.almasb.fxgl.dsl.FXGL.*;
 import javafx.util.Duration;
-import kotlin.Result;
-
-import static src.application.EntityType.*;
 
 /**
  * This file is the main class for the program and will be used to execute the game
@@ -36,6 +31,7 @@ import static src.application.EntityType.*;
  */
 
 public class LinkBetweenFists extends GameApplication {
+
     @Override
     protected void initSettings(GameSettings settings) { 
         settings.setWidth(24 * 64 );
@@ -50,6 +46,7 @@ public class LinkBetweenFists extends GameApplication {
  * @version 4/1/2020
  */
 
+
     private Entity player;
     private Entity player2;
     private ControllerManager controllers;
@@ -58,14 +55,6 @@ public class LinkBetweenFists extends GameApplication {
         getGameWorld().addEntityFactory(new ItemFactory());
         FXGL.setLevelFromMap("forest.tmx");
         
-        AStarGrid grid = AStarGrid.fromWorld(getGameWorld(), 24, 16, 64, 64, (type) -> {
-            if (type == BUSH)
-                return CellState.NOT_WALKABLE;
-
-            return CellState.WALKABLE;
-        });
-
-        set("grid", grid);
         player = getGameWorld().spawn("player");
         player2 = getGameWorld().spawn("player2");
 
@@ -80,11 +69,11 @@ public class LinkBetweenFists extends GameApplication {
         onCollisionBegin(EntityType.PLAYER, EntityType.BOW, (player, bow) -> {
             bow.removeFromWorld();
         });
-
-
     }   
 
     // ties in the animation class with the inputs from keyboard.
+
+
     @Override
     protected void initInput() {
         FXGL.getInput().addAction(new UserAction("Right") {
@@ -93,19 +82,21 @@ public class LinkBetweenFists extends GameApplication {
                 player.getComponent(AnimationComponent.class).moveRight();
             }
         }, KeyCode.D);
+        
 
         FXGL.getInput().addAction(new UserAction("Up") {
             @Override
             protected void onActionBegin() {
-                System.out.println("begin");
+                // System.out.println("begin");
             }
             @Override
             protected void onAction() {
                 player.getComponent(AnimationComponent.class).moveUp();
+
             }
             @Override
             protected void onActionEnd() {
-                System.out.println("end");
+                // System.out.println("end");
 
             }
         }, KeyCode.W);
