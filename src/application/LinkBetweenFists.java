@@ -73,7 +73,7 @@ public class LinkBetweenFists extends GameApplication {
 
     // ties in the animation class with the inputs from keyboard.
 
-
+    //player 1
     @Override
     protected void initInput() {
         FXGL.getInput().addAction(new UserAction("Right") {
@@ -124,6 +124,14 @@ public class LinkBetweenFists extends GameApplication {
             }
         }, KeyCode.S);
 
+        FXGL.getInput().addAction(new UserAction("SwordAttack") {
+            @Override
+            protected void onActionBegin() {
+                player.getComponent(AnimationComponent.class).swordAttack();
+            }
+        }, KeyCode.E);
+        
+        //player2
         FXGL.getInput().addAction(new UserAction("CRight") {
             @Override
             protected void onAction() {

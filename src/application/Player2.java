@@ -123,14 +123,16 @@ public class Player2 extends Component {
                 break;
             }
 
+
+
+        }            
             speed = (int) (speed * 0.9);
 
             if (FXGLMath.abs(speed) < 1) {
                 speed = 0;
-                texture.loopAnimationChannel(animIdle);
+                if(texture.getAnimationChannel() != animIdle)
+                    texture.loopAnimationChannel(animIdle);
             }
-
-        }
 
 
     }
