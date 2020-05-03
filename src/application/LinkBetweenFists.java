@@ -4,11 +4,7 @@ import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.getInput;
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 import static com.almasb.fxgl.dsl.FXGL.run;
-import static com.almasb.fxgl.dsl.FXGL.set;
 import static com.almasb.fxgl.dsl.FXGL.spawn;
-import static src.application.EntityType.BUSH;
-
-import java.util.List;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
@@ -16,16 +12,20 @@ import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.pathfinding.CellState;
-import com.almasb.fxgl.pathfinding.astar.AStarGrid;
+import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.texture.Texture;
 import com.studiohartman.jamepad.ControllerManager;
 import com.studiohartman.jamepad.ControllerState;
+import static com.almasb.fxgl.dsl.FXGL.*;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 /**
- * This file is the main class for the program and will be used to execute the game
+ * This file is the main class for the program and will be used to execute the
+ * game
+ * 
  * @author Nicholas Kalar
  * @version 2/29/2020
  */
@@ -33,19 +33,20 @@ import javafx.util.Duration;
 public class LinkBetweenFists extends GameApplication {
 
     @Override
-    protected void initSettings(GameSettings settings) { 
-        settings.setWidth(24 * 64 );
-        settings.setHeight(16 * 64);
+    protected void initSettings(GameSettings settings) {
+        settings.setWidth(24 * 70);
+        settings.setHeight(16 * 70);
         settings.setTitle("A Link Between Fists");
         settings.setVersion("1.0");
         settings.setAppIcon("icon.png");
     }
-/**
- * Began adding basic wall collision, still needs to be polished
- * @author Edwin Hernandez
- * @version 4/1/2020
- */
 
+    /**
+     * Began adding basic wall collision, still needs to be polished
+     * 
+     * @author Edwin Hernandez
+     * @version 4/1/2020
+     */
 
     private Entity player;
     private Entity player2;
@@ -63,14 +64,14 @@ public class LinkBetweenFists extends GameApplication {
     protected void initGame() {
         getGameWorld().addEntityFactory(new ItemFactory());
         FXGL.setLevelFromMap("forest.tmx");
-        
+
         player = getGameWorld().spawn("player");
         player2 = getGameWorld().spawn("player2");
 
         run(() -> spawn("bow", FXGLMath.random(10, 1100), FXGLMath.random(10, 700)), Duration.seconds(5));
-        
+
         controllers = new ControllerManager();
-        controllers.initSDLGamepad();        
+        controllers.initSDLGamepad();
     }
 
     @Override
@@ -78,11 +79,11 @@ public class LinkBetweenFists extends GameApplication {
         onCollisionBegin(EntityType.PLAYER, EntityType.BOW, (player, bow) -> {
             bow.removeFromWorld();
         });
-    }   
+    }
 
     // ties in the animation class with the inputs from keyboard.
 
-    //player 1
+    // player 1
     @Override
     protected void initInput() {
         FXGL.getInput().addAction(new UserAction("Right") {
@@ -91,18 +92,19 @@ public class LinkBetweenFists extends GameApplication {
                 player.getComponent(AnimationComponent.class).moveRight();
             }
         }, KeyCode.D);
-        
 
         FXGL.getInput().addAction(new UserAction("Up") {
             @Override
             protected void onActionBegin() {
                 // System.out.println("begin");
             }
+
             @Override
             protected void onAction() {
                 player.getComponent(AnimationComponent.class).moveUp();
 
             }
+
             @Override
             protected void onActionEnd() {
                 // System.out.println("end");
@@ -122,10 +124,12 @@ public class LinkBetweenFists extends GameApplication {
             protected void onActionBegin() {
                 System.out.println("begin");
             }
+
             @Override
             protected void onAction() {
                 player.getComponent(AnimationComponent.class).moveDown();
             }
+
             @Override
             protected void onActionEnd() {
                 System.out.println("end");
@@ -139,13 +143,12 @@ public class LinkBetweenFists extends GameApplication {
                 player.getComponent(AnimationComponent.class).swordAttack();
             }
         }, KeyCode.E);
-        
-        //player2
+
+        // player2
         FXGL.getInput().addAction(new UserAction("CRight") {
             @Override
             protected void onAction() {
                 player2.getComponent(Player2.class).moveRight();
-
 
             }
         }, KeyCode.L);
@@ -177,55 +180,71 @@ public class LinkBetweenFists extends GameApplication {
         }, KeyCode.K);
     }
 
-    /* Controller support
-    * @author Edwin Hernandez
-    * @version 3/16/20
-    */
+    /*
+     * Controller support
+     * 
+     * @author Edwin Hernandez
+     * 
+     * @version 3/16/20
+     */
 
     @Override
     protected void onUpdate(double tpf) {
         ControllerState currState = controllers.getState(0);
 
-        if(currState.a) {
+        if (currState.a) {
             System.out.println("currState.a");
         }
-        if(currState.b) {
+        if (currState.b) {
             System.out.println("currState.b");
         }
-        if(currState.dpadDown) {
+        if (currState.dpadDown) {
             getInput().mockKeyPress(KeyCode.S);
         } else {
             getInput().mockKeyRelease(KeyCode.S);
         }
-        if(currState.dpadLeft) {
+        if (currState.dpadLeft) {
             getInput().mockKeyPress(KeyCode.A);
         } else {
             getInput().mockKeyRelease(KeyCode.A);
         }
-        if(currState.dpadRight) {
+        if (currState.dpadRight) {
             getInput().mockKeyPress(KeyCode.D);
         } else {
             getInput().mockKeyRelease(KeyCode.D);
         }
-        if(currState.dpadUp) {
+        if (currState.dpadUp) {
             getInput().mockKeyPress(KeyCode.W);
         } else {
             getInput().mockKeyRelease(KeyCode.W);
         }
-        if(currState.rb) {
+        if (currState.rb) {
             System.out.println("currState.rb");
         }
-        if(currState.x) {
+        if (currState.x) {
             System.out.println("currState.x");
         }
-        if(currState.y) {
+        if (currState.y) {
             System.out.println("currState.y");
         }
-        if(currState.start) {
+        if (currState.start) {
             System.out.println("currState.start");
         }
     }
 
+    private Texture logo;
+
+    @Override
+    protected void initUI() {
+        logo = texture("logo.png", 60, 60);
+        // Text sepa = getUIFactory().newText("", Color.rgb(20, 20, 20), 16);
+        // bullets.textProperty().bind(getip("bullets").asString("x %d"));
+
+        HBox ui = new HBox(15, logo);
+        Texture border = texture("ui.png");
+        border.setTranslateY(getAppHeight() - border.getHeight());
+        getGameScene().addUINode(border);
+    }
 
 
     public static void main(String[] args) {
