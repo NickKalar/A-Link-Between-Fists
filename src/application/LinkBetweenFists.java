@@ -12,8 +12,6 @@ import java.util.List;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.app.scene.FXGLMenu;
-import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
@@ -41,12 +39,6 @@ public class LinkBetweenFists extends GameApplication {
         settings.setTitle("A Link Between Fists");
         settings.setVersion("1.0");
         settings.setAppIcon("icon.png");
-        settings.setMenuEnabled(true);
-        settings.setSceneFactory(new SceneFactory(){
-            public  FXGLMenu newMainMenu(){
-                return new LBTMainMenu();
-            }
-        });
     }
 /**
  * Began adding basic wall collision, still needs to be polished
