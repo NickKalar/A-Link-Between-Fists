@@ -6,5 +6,5 @@ package src.application;
 */
 
 public enum EntityType {
-    PLAYER, BOW, BOMB, BUSH, PLAYER2
+    PLAYER, BOW, BOMB, BUSH, PLAYER2, PLAYER3, PLAYER4
 }

@@ -135,7 +135,7 @@ public class LinkBetweenFists extends GameApplication {
 
         FXGL.getInput().addAction(new UserAction("SwordAttack") {
             @Override
-            protected void onActionBegin() {
+            protected void onAction() {
                 player.getComponent(AnimationComponent.class).swordAttack();
             }
         }, KeyCode.E);
@@ -188,9 +188,11 @@ public class LinkBetweenFists extends GameApplication {
 
         if(currState.a) {
             System.out.println("currState.a");
+            getInput().mockKeyPress(KeyCode.Q);
         }
         if(currState.b) {
             System.out.println("currState.b");
+            getInput().mockKeyPress(KeyCode.E);
         }
         if(currState.dpadDown) {
             getInput().mockKeyPress(KeyCode.S);
