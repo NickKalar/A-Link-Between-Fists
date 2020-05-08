@@ -26,6 +26,7 @@ import com.studiohartman.jamepad.ControllerState;
 
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
+import src.model.*;
 
 /**
  * This file is the main class for the program and will be used to execute the
@@ -62,7 +63,7 @@ public class LinkBetweenFists extends GameApplication {
      * @version 4/1/2020
      */
 
-    private Entity player;
+    private Entity player1;
     private Entity player2;
     private ControllerManager controllers;
 
@@ -81,7 +82,7 @@ public class LinkBetweenFists extends GameApplication {
         FXGL.getAudioPlayer().loopMusic(FXGL.getAssetLoader().loadMusic("LOZ_Forest.mp3"));
 
 
-        player = getGameWorld().spawn("player");
+        player1 = getGameWorld().spawn("player1");
         player2 = getGameWorld().spawn("player2");
 
         run(() -> spawn("bow", FXGLMath.random(10, 1100), FXGLMath.random(10, 700)), Duration.seconds(5));
@@ -92,7 +93,7 @@ public class LinkBetweenFists extends GameApplication {
 
     @Override
     protected void initPhysics() {
-        onCollisionBegin(EntityType.PLAYER, EntityType.BOW, (player, bow) -> {
+        onCollisionBegin(EntityType.PLAYER1, EntityType.BOW, (player, bow) -> {
             bow.removeFromWorld();
         });
     }
@@ -105,7 +106,7 @@ public class LinkBetweenFists extends GameApplication {
         FXGL.getInput().addAction(new UserAction("Right") {
             @Override
             protected void onAction() {
-                player.getComponent(AnimationComponent.class).moveRight();
+                player1.getComponent(Player1.class).moveRight();
             }
         }, KeyCode.D);
 
@@ -117,7 +118,7 @@ public class LinkBetweenFists extends GameApplication {
 
             @Override
             protected void onAction() {
-                player.getComponent(AnimationComponent.class).moveUp();
+                player1.getComponent(Player1.class).moveUp();
 
             }
 
@@ -131,7 +132,7 @@ public class LinkBetweenFists extends GameApplication {
         FXGL.getInput().addAction(new UserAction("Left") {
             @Override
             protected void onAction() {
-                player.getComponent(AnimationComponent.class).moveLeft();
+                player1.getComponent(Player1.class).moveLeft();
             }
         }, KeyCode.A);
 
@@ -143,7 +144,7 @@ public class LinkBetweenFists extends GameApplication {
 
             @Override
             protected void onAction() {
-                player.getComponent(AnimationComponent.class).moveDown();
+                player1.getComponent(Player1.class).moveDown();
             }
 
             @Override
@@ -156,7 +157,7 @@ public class LinkBetweenFists extends GameApplication {
         FXGL.getInput().addAction(new UserAction("SwordAttack") {
             @Override
             protected void onAction() {
-                player.getComponent(AnimationComponent.class).swordAttack();
+                player1.getComponent(Player1.class).swordAttack();
             }
         }, KeyCode.E);
 

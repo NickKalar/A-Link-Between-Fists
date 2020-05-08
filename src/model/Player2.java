@@ -1,4 +1,4 @@
-package src.application;
+package src.model;
 
 import com.almasb.fxgl.physics.BoundingShape;
 
@@ -31,15 +31,13 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 * @author Edwin Hernandez
 * @version 3/9/20
 */
-public class AnimationComponent extends Component {
+public class Player2 extends Component {
 
     private int speed = 0;
     private String direction = null;
-    private String attack = null;
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animLeft, animRight;
     private AnimationChannel animUp, animDown;
-    private AnimationChannel swordAttack;
 
     // creating new animations for specific actions being used in game.
     // how to use: FXGL.image("file name"), sprite frames per row, single sprite
@@ -49,13 +47,13 @@ public class AnimationComponent extends Component {
     // starting from index 0. If there are a total of 50 sprites you can access
     // which ever...
     // with the correct index number
-    public AnimationComponent() {
-        animIdle = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 0, 1);
-        animLeft = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 6, 7);
-        animRight = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 4, 5);
-        animUp = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 2, 3);
-        animDown = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 0, 1);
-        swordAttack = new AnimationChannel(FXGL.image("link1_attacklr.png"), 1, 128, 64, Duration.seconds(1), 0, 0);
+    public Player2() {
+        animIdle = new AnimationChannel(FXGL.image("link3_walk.png"), 2, 64, 64, Duration.seconds(1), 0, 1);
+        animLeft = new AnimationChannel(FXGL.image("link3_walk.png"), 2, 64, 64, Duration.seconds(1), 6, 7);
+        animRight = new AnimationChannel(FXGL.image("link3_walk.png"), 2, 64, 64, Duration.seconds(1), 4, 5);
+        animUp = new AnimationChannel(FXGL.image("link3_walk.png"), 2, 64, 64, Duration.seconds(1), 2, 3);
+        animDown = new AnimationChannel(FXGL.image("link3_walk.png"), 2, 64, 64, Duration.seconds(1), 0, 1);
+
         texture = new AnimatedTexture(animIdle);
     }
 
@@ -67,10 +65,15 @@ public class AnimationComponent extends Component {
 
     public List<Entity> wall;
     // on update can be seen as a loop, it is always checking for input
+    /**
+     * polished up wall collisions as well as added collisions for players
+     * @author Edwin Hernandez
+     * @version 4/6/20
+     */
     @Override
     public void onUpdate(double tpf) {
         if(wall == null)
-            wall = FXGL.getGameWorld().getEntitiesByType(BUSH,PLAYER2);
+            wall = FXGL.getGameWorld().getEntitiesByType(BUSH,PLAYER1);
      
         if (speed != 0) {
         switch (direction) {
@@ -118,13 +121,11 @@ public class AnimationComponent extends Component {
                     } 
                  }
                 break;
-
-            case "sword":
-                    if(texture.getAnimationChannel() != swordAttack)
-                        texture.loopAnimationChannel(swordAttack);
-                    break;
             }
-        } 
+
+
+
+        }            
             speed = (int) (speed * 0.9);
 
             if (FXGLMath.abs(speed) < 1) {
@@ -132,15 +133,6 @@ public class AnimationComponent extends Component {
                 if(texture.getAnimationChannel() != animIdle)
                     texture.loopAnimationChannel(animIdle);
             }
-            if(attack != null){
-
-            switch(attack) {
-                case "sword": 
-                    if(texture.getAnimationChannel() != swordAttack)
-                        texture.loopAnimationChannel(swordAttack);
-                    attack = null;
-                break;
-            }}
 
 
     }
@@ -164,11 +156,6 @@ public class AnimationComponent extends Component {
     public void moveDown() {
         speed = 110;
         direction = "down";
-    }
-
-    public void swordAttack() {
-        attack = "sword";
-        // System.out.println("att");
     }
 
 

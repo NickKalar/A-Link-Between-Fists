@@ -12,14 +12,11 @@ import com.almasb.fxgl.pathfinding.CellMoveComponent;
 import com.almasb.fxgl.pathfinding.astar.AStarMoveComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
-import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 
-import javafx.geometry.Point2D;
 
 import static src.application.EntityType.*;
-import com.almasb.fxgl.core.util.LazyValue;
 import static com.almasb.fxgl.dsl.FXGL.*;
+import src.model.*;
 
 /* Create spawns for different items to be called when needed
 * @Author Edwin Hernandez
@@ -69,14 +66,14 @@ public class ItemFactory implements EntityFactory {
  * @version 4/1/2020
  */
 
-    @Spawns("player")
+    @Spawns("player1")
     public Entity newPlayer(SpawnData data) {
         return entityBuilder()
-                .type(PLAYER)
+                .type(PLAYER1)
                 .bbox(new HitBox(BoundingShape.box(60,60)))
                 .at(150,150)
                 .with(new CollidableComponent(true))
-                .with(new AnimationComponent())
+                .with(new Player1())
                 .build();
     }
 
