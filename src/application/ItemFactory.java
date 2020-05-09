@@ -90,4 +90,26 @@ public class ItemFactory implements EntityFactory {
                 // .with(new AnimationComponent())
                 .build();
     }
+
+    @Spawns("player3")
+    public Entity newPlayer3(SpawnData data) {
+        return entityBuilder()
+                .type(PLAYER1)
+                .bbox(new HitBox(BoundingShape.box(60,60)))
+                .at(150,150)
+                .with(new CollidableComponent(true))
+                .with(new Player1())
+                .build();
+    }
+
+    @Spawns("player4")
+    public Entity newPlayer4(SpawnData data) {
+        return entityBuilder()
+                .type(PLAYER1)
+                .bbox(new HitBox(BoundingShape.box(60,60)))
+                .at(150,150)
+                .with(new CollidableComponent(true))
+                .with(new Player1())
+                .build();
+    }
 }

@@ -15,7 +15,6 @@ import javafx.util.Duration;
 public class Link extends Pane {
     static int health = 6;
     static int swordLevel = 0;
-    static Weapon weapon = null;
     ImageView imageView;
     int count = 3;
     int colums = 4;

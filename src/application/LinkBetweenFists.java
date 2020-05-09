@@ -8,10 +8,13 @@ import static com.almasb.fxgl.dsl.FXGL.set;
 import static com.almasb.fxgl.dsl.FXGL.spawn;
 import static src.application.EntityType.BUSH;
 
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.app.MenuItem;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.audio.Music;
@@ -48,6 +51,15 @@ public class LinkBetweenFists extends GameApplication {
         settings.setVersion("1.0");
         settings.setAppIcon("icon.png");
         settings.setMenuEnabled(true);
+        settings.setEnabledMenuItems(EnumSet.of(MenuItem.EXTRA));
+        settings.getCredits().addAll(Arrays.asList(
+                "Menus by Nancy Castillejos",
+                "Custom Sprites by Nicholas Kalar",
+                "Mapping and Collsion by Edwin Hernandez",
+                "Gameplay mechanics by Nancy Castillejos,", 
+                "\t\t\tEdwin Hernandez, and Nicholas Kalar",
+                "Based on The Legend of Zelda by Nintendo Co., Ltd."
+        ));
         settings.setSceneFactory(new SceneFactory() {
             public FXGLMenu newMainMenu() {
                 return new LBTMainMenu();
@@ -72,6 +84,12 @@ public class LinkBetweenFists extends GameApplication {
         FXGL.getSettings().setGlobalSoundVolume(0.5);
         FXGL.getSettings().setGlobalMusicVolume(0.5);
         FXGL.getAudioPlayer().loopMusic(FXGL.getAssetLoader().loadMusic("LOZ_Title.mp3"));
+
+        FXGL.onEvent(GameEvent.PLAYER1_GOT_HIT, this::player1Hit);
+        FXGL.onEvent(GameEvent.PLAYER2_GOT_HIT, this::player2Hit);
+        FXGL.onEvent(GameEvent.PLAYER3_GOT_HIT, this::player3Hit);
+        FXGL.onEvent(GameEvent.PLAYER4_GOT_HIT, this::player4Hit);
+
     }
 
     @Override
@@ -99,10 +117,9 @@ public class LinkBetweenFists extends GameApplication {
     }
 
     // ties in the animation class with the inputs from keyboard.
-
-    // player 1
     @Override
     protected void initInput() {
+         // player 1
         FXGL.getInput().addAction(new UserAction("Right") {
             @Override
             protected void onAction() {
@@ -158,6 +175,7 @@ public class LinkBetweenFists extends GameApplication {
             @Override
             protected void onAction() {
                 player1.getComponent(Player1.class).swordAttack();
+                FXGL.play("LOZ_Sword_Slash.wav");
             }
         }, KeyCode.E);
 
@@ -197,14 +215,34 @@ public class LinkBetweenFists extends GameApplication {
         }, KeyCode.K);
     }
 
+    public void player1Hit(GameEvent event) {
+        //Add code to take damage
+
+        //remove 1 heart
+        //set invicibility
+        //remove invicibility after set time
+        //play hurt sound
+        FXGL.play("LOZ_Link_Hurt.wav");
+        //if hearts == 0, die
+    }
+
+    public void player2Hit(GameEvent event) {
+
+    }
+
+    public void player3Hit(GameEvent event) {
+
+    }
+
+    public void player4Hit(GameEvent event) {
+
+    }
+
     /*
      * Controller support
-     * 
      * @author Edwin Hernandez
-     * 
      * @version 3/16/20
      */
-
     @Override
     protected void onUpdate(double tpf) {
         ControllerState currState = controllers.getState(0);

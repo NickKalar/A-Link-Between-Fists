@@ -76,6 +76,7 @@ public class Player1 extends Component {
         if (speed != 0) {
         switch (direction) {
             case "right":
+                direction = "right"; 
                 if (texture.getAnimationChannel() != animRight)
                     texture.loopAnimationChannel(animRight);
                 
@@ -88,6 +89,7 @@ public class Player1 extends Component {
                 break;
 
             case "left":
+                direction = "left"; 
                 if (texture.getAnimationChannel() != animLeft)
                     texture.loopAnimationChannel(animLeft);                    
                 entity.translateX(speed * tpf);
@@ -99,6 +101,7 @@ public class Player1 extends Component {
                 break;
 
             case "up":
+                direction = "up"; 
                 if (texture.getAnimationChannel() != animUp)
                     texture.loopAnimationChannel(animUp);
                 entity.translateY(speed * tpf);
@@ -110,6 +113,7 @@ public class Player1 extends Component {
                 break;
 
             case "down":
+                direction = "down";
                 if (texture.getAnimationChannel() != animDown)
                     texture.loopAnimationChannel(animDown);
                 entity.translateY(speed * tpf);
