@@ -2,15 +2,18 @@ package src.model;
 
 import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.entity.component.Required;
+
 import javafx.util.Duration;
 
 /**
- * This file is the base class for all weapon upgrades/pickups
- * 
  * @author Nicholas Kalar
  * @version 3/8/2020
  */
-public class Weapon {
+
+@Required(OwnerComponent.class)
+public class SwordComponent extends Component  {
     private int damage;
     private int charges;
     private AnimationChannel sprite;
