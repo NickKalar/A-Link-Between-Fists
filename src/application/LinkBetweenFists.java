@@ -4,26 +4,20 @@ import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.getInput;
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 import static com.almasb.fxgl.dsl.FXGL.run;
-import static com.almasb.fxgl.dsl.FXGL.set;
 import static com.almasb.fxgl.dsl.FXGL.spawn;
-import static src.application.EntityType.BUSH;
 
 import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.List;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.MenuItem;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
-import com.almasb.fxgl.audio.Music;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.pathfinding.CellState;
-import com.almasb.fxgl.pathfinding.astar.AStarGrid;
 import com.studiohartman.jamepad.ControllerManager;
 import com.studiohartman.jamepad.ControllerState;
 
@@ -56,7 +50,7 @@ public class LinkBetweenFists extends GameApplication {
                 "Menus by Nancy Castillejos",
                 "Custom Sprites by Nicholas Kalar",
                 "Mapping and Collsion by Edwin Hernandez",
-                "Gameplay mechanics by Nancy Castillejos,", 
+                "Gameplay Mechanics by Nancy Castillejos,", 
                 "\t\t\tEdwin Hernandez, and Nicholas Kalar",
                 "Based on The Legend of Zelda by Nintendo Co., Ltd."
         ));

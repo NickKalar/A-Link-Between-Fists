@@ -7,15 +7,10 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.scene.image.Image;
 
 public class LBTMainMenu extends FXGLMenu {
 
@@ -63,8 +58,6 @@ public class LBTMainMenu extends FXGLMenu {
         public  LBTButton(String name, Runnable action) {
 
             var bg = new Rectangle(200, 40, Color.BLACK);
-            // var bg2 = new BackgroundImage(new Image("textures/mainmenu.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-            // BackgroundSize.DEFAULT);
             bg.setStroke(Color.WHITE);
 
             var text = FXGL.getUIFactory().newText(name, 18);
