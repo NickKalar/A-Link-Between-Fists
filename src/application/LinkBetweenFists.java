@@ -1,14 +1,14 @@
 package src.application;
 
+import src.model.*;
+import src.view.*;
+import java.util.Arrays;
+import java.util.EnumSet;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.getInput;
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 import static com.almasb.fxgl.dsl.FXGL.run;
 import static com.almasb.fxgl.dsl.FXGL.spawn;
-
-import java.util.Arrays;
-import java.util.EnumSet;
-
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.MenuItem;
@@ -20,10 +20,9 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import com.studiohartman.jamepad.ControllerManager;
 import com.studiohartman.jamepad.ControllerState;
-
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
-import src.model.*;
+
 
 /**
  * This file is the main class for the program and will be used to execute the
@@ -69,8 +68,7 @@ public class LinkBetweenFists extends GameApplication {
      * @version 4/1/2020
      */
 
-    private Entity player1;
-    private Entity player2;
+    private Entity player1, player2, player3, player4;
     private ControllerManager controllers;
 
     @Override
@@ -96,6 +94,8 @@ public class LinkBetweenFists extends GameApplication {
 
         player1 = getGameWorld().spawn("player1");
         player2 = getGameWorld().spawn("player2");
+        player3 = getGameWorld().spawn("player3");
+        player4 = getGameWorld().spawn("player4");
 
         run(() -> spawn("bow", FXGLMath.random(10, 1100), FXGLMath.random(10, 700)), Duration.seconds(5));
 
@@ -123,19 +123,8 @@ public class LinkBetweenFists extends GameApplication {
 
         FXGL.getInput().addAction(new UserAction("Up") {
             @Override
-            protected void onActionBegin() {
-                // System.out.println("begin");
-            }
-
-            @Override
             protected void onAction() {
                 player1.getComponent(Player1.class).moveUp();
-
-            }
-
-            @Override
-            protected void onActionEnd() {
-                // System.out.println("end");
 
             }
         }, KeyCode.W);
@@ -149,23 +138,12 @@ public class LinkBetweenFists extends GameApplication {
 
         FXGL.getInput().addAction(new UserAction("Down") {
             @Override
-            protected void onActionBegin() {
-                System.out.println("begin");
-            }
-
-            @Override
             protected void onAction() {
                 player1.getComponent(Player1.class).moveDown();
             }
-
-            @Override
-            protected void onActionEnd() {
-                System.out.println("end");
-
-            }
         }, KeyCode.S);
 
-        FXGL.getInput().addAction(new UserAction("SwordAttack") {
+        FXGL.getInput().addAction(new UserAction("P1SwordAttack") {
             @Override
             protected void onAction() {
                 player1.getComponent(Player1.class).swordAttack();
@@ -174,7 +152,7 @@ public class LinkBetweenFists extends GameApplication {
         }, KeyCode.E);
 
         // player2
-        FXGL.getInput().addAction(new UserAction("CRight") {
+        FXGL.getInput().addAction(new UserAction("P2Right") {
             @Override
             protected void onAction() {
                 player2.getComponent(Player2.class).moveRight();
@@ -182,7 +160,7 @@ public class LinkBetweenFists extends GameApplication {
             }
         }, KeyCode.L);
 
-        FXGL.getInput().addAction(new UserAction("CUp") {
+        FXGL.getInput().addAction(new UserAction("P2Up") {
 
             @Override
             protected void onAction() {
@@ -192,14 +170,14 @@ public class LinkBetweenFists extends GameApplication {
 
         }, KeyCode.I);
 
-        FXGL.getInput().addAction(new UserAction("CLeft") {
+        FXGL.getInput().addAction(new UserAction("P2Left") {
             @Override
             protected void onAction() {
                 player2.getComponent(Player2.class).moveLeft();
             }
         }, KeyCode.J);
 
-        FXGL.getInput().addAction(new UserAction("CDown") {
+        FXGL.getInput().addAction(new UserAction("P2Down") {
             @Override
             protected void onAction() {
                 player2.getComponent(Player2.class).moveDown();
@@ -207,6 +185,97 @@ public class LinkBetweenFists extends GameApplication {
             }
 
         }, KeyCode.K);
+
+        FXGL.getInput().addAction(new UserAction("P2SwordAttack") {
+            @Override
+            protected void onAction() {
+                player2.getComponent(Player2.class).swordAttack();
+                FXGL.play("LOZ_Sword_Slash.wav");
+            }
+        }, KeyCode.O);
+
+        // player3
+        FXGL.getInput().addAction(new UserAction("P3Right") {
+            @Override
+            protected void onAction() {
+                player3.getComponent(Player3.class).moveRight();
+
+            }
+        }, KeyCode.H);
+
+        FXGL.getInput().addAction(new UserAction("P3Up") {
+
+            @Override
+            protected void onAction() {
+                player3.getComponent(Player3.class).moveUp();
+
+            }
+
+        }, KeyCode.T);
+
+        FXGL.getInput().addAction(new UserAction("P3Left") {
+            @Override
+            protected void onAction() {
+                player3.getComponent(Player3.class).moveLeft();
+            }
+        }, KeyCode.F);
+
+        FXGL.getInput().addAction(new UserAction("P3Down") {
+            @Override
+            protected void onAction() {
+                player3.getComponent(Player3.class).moveDown();
+
+            }
+        }, KeyCode.G);
+
+        FXGL.getInput().addAction(new UserAction("P3SwordAttack") {
+            @Override
+            protected void onAction() {
+                player3.getComponent(Player3.class).swordAttack();
+                FXGL.play("LOZ_Sword_Slash.wav");
+            }
+        }, KeyCode.Y);
+
+        // player4
+        FXGL.getInput().addAction(new UserAction("P4Right") {
+            @Override
+            protected void onAction() {
+                player4.getComponent(Player4.class).moveRight();
+
+            }
+        }, KeyCode.NUMPAD6);
+
+        FXGL.getInput().addAction(new UserAction("P4Up") {
+            @Override
+            protected void onAction() {
+                player4.getComponent(Player4.class).moveUp();
+
+            }
+        }, KeyCode.NUMPAD8);
+
+        FXGL.getInput().addAction(new UserAction("P4Left") {
+            @Override
+            protected void onAction() {
+                player4.getComponent(Player4.class).moveLeft();
+            }
+        }, KeyCode.NUMPAD4);
+
+        FXGL.getInput().addAction(new UserAction("P4Down") {
+            @Override
+            protected void onAction() {
+                player4.getComponent(Player4.class).moveDown();
+
+            }
+
+        }, KeyCode.NUMPAD5);
+
+        FXGL.getInput().addAction(new UserAction("P4SwordAttack") {
+            @Override
+            protected void onAction() {
+                player4.getComponent(Player4.class).swordAttack();
+                FXGL.play("LOZ_Sword_Slash.wav");
+            }
+        }, KeyCode.NUMPAD9);
     }
 
     public void player1Hit(GameEvent event) {
@@ -287,67 +356,3 @@ public class LinkBetweenFists extends GameApplication {
         launch(args);
     }
 }
-// private HashMap<KeyCode, Boolean> keys = new HashMap<>();
-// Image image = new
-// Image("http://www.zeldagalaxy.com/wp-content/img/sprites/nes/loz/link.png");
-// ImageView imageView = new ImageView(image);
-// Link link = new Link(imageView);
-// static Pane root = new Pane();
-
-// @Override
-// public void start(Stage primaryStage) {
-// try {
-// root.setPrefSize(1280, 720);
-// root.getChildren().addAll(link);
-
-// Scene scene = new Scene(root);
-// scene.setOnKeyPressed(event->keys.put(event.getCode(),true));
-// scene.setOnKeyReleased(event-> {
-// keys.put(event.getCode(), false);
-// });
-// AnimationTimer timer = new AnimationTimer() {
-// @Override
-// public void handle(long now) {
-// update();
-// }
-// };
-// timer.start();
-// ViewManager manager = new ViewManager();
-// primaryStage = manager.getMainStage();
-// primaryStage.setTitle("A Link Between Fists");
-// primaryStage.setScene(scene);
-// primaryStage.show();
-// } catch (Exception e) {
-// e.printStackTrace();
-// }
-// }
-
-// public static void main(String args[]) {
-// launch(args);
-// }
-
-// // input handling from a keyboard.
-// public void update() {
-// if (isPressed(KeyCode.UP)){
-// link.animation.play();
-// link.animation.setOffsetY(64);
-// link.moveY(-2);
-// } if (isPressed(KeyCode.DOWN)){
-// link.animation.play();
-// link.animation.setOffsetY(0);
-// link.moveY(2);
-// } if (isPressed(KeyCode.RIGHT)) {
-// link.animation.play();
-// link.animation.setOffsetY(92);
-// link.moveX(2);
-// } if (isPressed(KeyCode.LEFT)) {
-// link.animation.play();
-// link.animation.setOffsetY(31);
-// link.moveX(-2);
-// }
-// }
-
-// public boolean isPressed(KeyCode key) {
-// return keys.getOrDefault(key, false);
-// }
-// }

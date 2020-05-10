@@ -71,7 +71,7 @@ public class ItemFactory implements EntityFactory {
         return entityBuilder()
                 .type(PLAYER1)
                 .bbox(new HitBox(BoundingShape.box(60,60)))
-                .at(150,150)
+                .at(128,128)
                 .with(new CollidableComponent(true))
                 .with(new Player1())
                 .build();
@@ -82,12 +82,9 @@ public class ItemFactory implements EntityFactory {
         return entityBuilder()
                 .type(PLAYER2)
                 .bbox(new HitBox(BoundingShape.box(60,60)))
-                .at(900,100)
+                .at(1344,128)
                 .with(new CollidableComponent(true))
-                .with(new CellMoveComponent(64, 64, 100).allowRotation(false))
-                .with(new AStarMoveComponent(new LazyValue<>(() -> geto("grid"))))
                 .with(new Player2())
-                // .with(new AnimationComponent())
                 .build();
     }
 
@@ -96,9 +93,9 @@ public class ItemFactory implements EntityFactory {
         return entityBuilder()
                 .type(PLAYER1)
                 .bbox(new HitBox(BoundingShape.box(60,60)))
-                .at(150,150)
+                .at(128,832)
                 .with(new CollidableComponent(true))
-                .with(new Player1())
+                .with(new Player3())
                 .build();
     }
 
@@ -107,9 +104,9 @@ public class ItemFactory implements EntityFactory {
         return entityBuilder()
                 .type(PLAYER1)
                 .bbox(new HitBox(BoundingShape.box(60,60)))
-                .at(150,150)
+                .at(1344,832)
                 .with(new CollidableComponent(true))
-                .with(new Player1())
+                .with(new Player4())
                 .build();
     }
 }
