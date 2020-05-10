@@ -1,29 +1,15 @@
 package src.model;
 
-import com.almasb.fxgl.physics.BoundingShape;
-
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.entity.components.BoundingBoxComponent;
-import com.almasb.fxgl.entity.components.CollidableComponent;
-import com.almasb.fxgl.entity.components.TypeComponent;
-import com.almasb.fxgl.pathfinding.Cell;
-import com.almasb.fxgl.pathfinding.CellMoveComponent;
-import com.almasb.fxgl.pathfinding.astar.AStarMoveComponent;
-import com.almasb.fxgl.physics.CollisionResult;
-import com.almasb.fxgl.physics.HitBox;
-import com.almasb.fxgl.physics.box2d.collision.Collision;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import static src.application.EntityType.*;
-
 import java.util.List;
-
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
-import static com.almasb.fxgl.dsl.FXGL.*;
 
 
 /*
@@ -35,9 +21,12 @@ public class Player3 extends Component {
 
     private int speed = 0;
     private String direction = null;
+    private String attack = null;
     private AnimatedTexture texture;
-    private AnimationChannel animIdle, animLeft, animRight;
-    private AnimationChannel animUp, animDown;
+    private AnimationChannel animIdle, animLeft, animRight, 
+                             animUp, animDown, swordAttackLeft, 
+                             swordAttackRight, swordAttackUp, 
+                             swordAttackDown;
 
     // creating new animations for specific actions being used in game.
     // how to use: FXGL.image("file name"), sprite frames per row, single sprite
@@ -53,6 +42,10 @@ public class Player3 extends Component {
         animRight = new AnimationChannel(FXGL.image("link2_walk.png"), 2, 64, 64, Duration.seconds(1), 4, 5);
         animUp = new AnimationChannel(FXGL.image("link2_walk.png"), 2, 64, 64, Duration.seconds(1), 2, 3);
         animDown = new AnimationChannel(FXGL.image("link2_walk.png"), 2, 64, 64, Duration.seconds(1), 0, 1);
+        swordAttackLeft = new AnimationChannel(FXGL.image("link2_item.png"), 1, 64, 64, Duration.seconds(1), 3, 3);
+        swordAttackRight = new AnimationChannel(FXGL.image("link2_item.png"), 1, 64, 64, Duration.seconds(1), 2, 2);
+        swordAttackUp = new AnimationChannel(FXGL.image("link2_item.png"), 1, 64, 64, Duration.seconds(1), 1, 1);
+        swordAttackDown = new AnimationChannel(FXGL.image("link2_item.png"), 1, 64, 64, Duration.seconds(1), 0, 0);
 
         texture = new AnimatedTexture(animIdle);
     }
@@ -73,7 +66,7 @@ public class Player3 extends Component {
     @Override
     public void onUpdate(double tpf) {
         if(wall == null)
-            wall = FXGL.getGameWorld().getEntitiesByType(BUSH,PLAYER1);
+            wall = FXGL.getGameWorld().getEntitiesByType(BUSH,PLAYER3);
      
         if (speed != 0) {
         switch (direction) {
@@ -122,9 +115,6 @@ public class Player3 extends Component {
                  }
                 break;
             }
-
-
-
         }            
             speed = (int) (speed * 0.9);
 
@@ -134,7 +124,19 @@ public class Player3 extends Component {
                     texture.loopAnimationChannel(animIdle);
             }
 
-
+            if(attack != null){
+                switch(attack) {
+                    case "sword": 
+                        if(texture.getAnimationChannel() != swordAttackRight && direction == "right")
+                            texture.loopAnimationChannel(swordAttackRight);
+                        if(texture.getAnimationChannel() != swordAttackLeft && direction == "left")
+                            texture.loopAnimationChannel(swordAttackLeft);
+                        if(texture.getAnimationChannel() != swordAttackUp && direction == "up")
+                            texture.loopAnimationChannel(swordAttackUp);
+                        if(texture.getAnimationChannel() != swordAttackDown && direction == "down")
+                            texture.loopAnimationChannel(swordAttackDown);
+                    break;
+                }}
     }
 
     public void moveRight() {
@@ -145,7 +147,6 @@ public class Player3 extends Component {
     public void moveLeft() {
         speed = -110;
         direction = "left";
-
     }
 
     public void moveUp() {
@@ -158,5 +159,9 @@ public class Player3 extends Component {
         direction = "down";
     }
 
+    public void swordAttack() {
+        attack = "sword";
+        // System.out.println("att");
+    }
 
 }

@@ -1,29 +1,15 @@
 package src.model;
 
-import com.almasb.fxgl.physics.BoundingShape;
-
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.entity.components.BoundingBoxComponent;
-import com.almasb.fxgl.entity.components.CollidableComponent;
-import com.almasb.fxgl.entity.components.TypeComponent;
-import com.almasb.fxgl.pathfinding.Cell;
-import com.almasb.fxgl.pathfinding.CellMoveComponent;
-import com.almasb.fxgl.pathfinding.astar.AStarMoveComponent;
-import com.almasb.fxgl.physics.CollisionResult;
-import com.almasb.fxgl.physics.HitBox;
-import com.almasb.fxgl.physics.box2d.collision.Collision;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import static src.application.EntityType.*;
-
 import java.util.List;
-
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
-import static com.almasb.fxgl.dsl.FXGL.*;
 
 
 /*
@@ -37,9 +23,10 @@ public class Player1 extends Component {
     private String direction = null;
     private String attack = null;
     private AnimatedTexture texture;
-    private AnimationChannel animIdle, animLeft, animRight;
-    private AnimationChannel animUp, animDown;
-    private AnimationChannel swordAttack;
+    private AnimationChannel animIdle, animLeft, animRight, 
+                             animUp, animDown, swordAttackLeft, 
+                             swordAttackRight, swordAttackUp, 
+                             swordAttackDown;
 
     // creating new animations for specific actions being used in game.
     // how to use: FXGL.image("file name"), sprite frames per row, single sprite
@@ -49,14 +36,17 @@ public class Player1 extends Component {
     // starting from index 0. If there are a total of 50 sprites you can access
     // which ever...
     // with the correct index number
-    public Player1
-    () {
+    public Player1() {
         animIdle = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 0, 1);
         animLeft = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 6, 7);
         animRight = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 4, 5);
         animUp = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 2, 3);
         animDown = new AnimationChannel(FXGL.image("link1_walk.png"), 2, 64, 64, Duration.seconds(1), 0, 1);
-        swordAttack = new AnimationChannel(FXGL.image("link1_attacklr.png"), 1, 128, 64, Duration.seconds(1), 0, 0);
+        swordAttackLeft = new AnimationChannel(FXGL.image("link1_item.png"), 1, 64, 64, Duration.seconds(1.5), 3, 3);
+        swordAttackRight = new AnimationChannel(FXGL.image("link1_item.png"), 1, 64, 64, Duration.seconds(1.5), 2, 2);
+        swordAttackUp = new AnimationChannel(FXGL.image("link1_item.png"), 1, 64, 64, Duration.seconds(1.5), 1, 1);
+        swordAttackDown = new AnimationChannel(FXGL.image("link1_item.png"), 1, 64, 64, Duration.seconds(1.5), 0, 0);
+        
         texture = new AnimatedTexture(animIdle);
     }
 
@@ -68,6 +58,11 @@ public class Player1 extends Component {
 
     public List<Entity> wall;
     // on update can be seen as a loop, it is always checking for input
+    /**
+     * polished up wall collisions as well as added collisions for players
+     * @author Edwin Hernandez
+     * @version 4/6/20
+     */
     @Override
     public void onUpdate(double tpf) {
         if(wall == null)
@@ -125,8 +120,8 @@ public class Player1 extends Component {
                 break;
 
             case "sword":
-                    if(texture.getAnimationChannel() != swordAttack)
-                        texture.loopAnimationChannel(swordAttack);
+                    if(texture.getAnimationChannel() != swordAttackRight)
+                        texture.loopAnimationChannel(swordAttackRight);
                     break;
             }
         } 
@@ -138,16 +133,19 @@ public class Player1 extends Component {
                     texture.loopAnimationChannel(animIdle);
             }
             if(attack != null){
-
-            switch(attack) {
-                case "sword": 
-                    if(texture.getAnimationChannel() != swordAttack)
-                        texture.loopAnimationChannel(swordAttack);
-                    attack = null;
-                break;
+                switch(attack) {
+                    case "sword": 
+                        if(texture.getAnimationChannel() != swordAttackRight && direction == "right")
+                            texture.loopAnimationChannel(swordAttackRight);
+                        if(texture.getAnimationChannel() != swordAttackLeft && direction == "left")
+                            texture.loopAnimationChannel(swordAttackLeft);
+                        if(texture.getAnimationChannel() != swordAttackUp && direction == "up")
+                            texture.loopAnimationChannel(swordAttackUp);
+                        if(texture.getAnimationChannel() != swordAttackDown && direction == "down")
+                            texture.loopAnimationChannel(swordAttackDown);
+                        attack = null;
+                    break;
             }}
-
-
     }
 
     public void moveRight() {
@@ -158,7 +156,6 @@ public class Player1 extends Component {
     public void moveLeft() {
         speed = -110;
         direction = "left";
-
     }
 
     public void moveUp() {
@@ -175,6 +172,4 @@ public class Player1 extends Component {
         attack = "sword";
         // System.out.println("att");
     }
-
-
 }
