@@ -5,7 +5,7 @@ import javafx.event.EventType;
 
 public class GameEvent extends Event{
 
-    
+    private static final long serialVersionUID = 1L;
 
     public static final EventType<GameEvent> ANY =
             new EventType<>(Event.ANY, "GAME_EVENT");

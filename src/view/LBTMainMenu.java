@@ -1,4 +1,4 @@
-package src.application;
+package src.view;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
