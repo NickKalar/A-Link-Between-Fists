@@ -1,6 +1,6 @@
 package src.model;
 
-public class Bomb extends Weapon {
+public class Bomb extends SwordComponent {
     Bomb(){
         updateDamage(2);
         setCharges(3);
