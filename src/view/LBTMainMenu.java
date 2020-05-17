@@ -1,27 +1,43 @@
 package src.view;
 
+//import java.io.File;
+
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
-import javafx.beans.binding.Bindings;
+//import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+//import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.image.Image;
+//import javafx.scene.image.ImageView;
+//import java.io.File;
+//import java.util.Collection;
+//import javafx.scene.image.ImageView;
 
 public class LBTMainMenu extends FXGLMenu {
 
     public LBTMainMenu() {
         super(MenuType.MAIN_MENU);
 
-        var button = new LBTButton("Start New Game", this::fireNewGame);
-        button.setTranslateX(FXGL.getAppWidth() / 2 - 200 / 2);
-        button.setTranslateY(FXGL.getAppHeight() / 2 - 40 / 2);
+        LBTButton btnNewGame = new LBTButton("/assets/textures/new-game.png", () -> fireNewGame());
+        LBTButton btnSettings = new LBTButton("/assets/textures/settings.png", () -> {});
+        LBTButton btnExit = new LBTButton("/assets/textures/exit.png", () -> fireExit());
 
-        getMenuContentRoot().getChildren().add(button);
+        var box = new VBox(15, btnNewGame, btnSettings, btnExit);
+        box.setAlignment(Pos.CENTER);
+        box.setTranslateX(FXGL.getAppWidth() / 2 - 200 / 2);
+        box.setTranslateY(FXGL.getAppHeight() / 2 - 40 / 2);
+
+        getMenuContentRoot().getChildren().addAll(box);
     }
 
     @Override
@@ -55,24 +71,25 @@ public class LBTMainMenu extends FXGLMenu {
     }
 
     private static class LBTButton extends StackPane {
-        public  LBTButton(String name, Runnable action) {
 
-            var bg = new Rectangle(200, 40, Color.BLACK);
-            bg.setStroke(Color.WHITE);
+        private String name;
+        private Runnable action;
 
-            var text = FXGL.getUIFactory().newText(name, 18);
-            
-            bg.fillProperty().bind(
-                    Bindings.when(hoverProperty()).then(Color.WHITE).otherwise(Color.BLACK)
-            );
+        private Rectangle rec;
 
-            text.fillProperty().bind(
-                    Bindings.when(hoverProperty()).then(Color.BLACK).otherwise(Color.WHITE)
-            );
+        public LBTButton(String n, Runnable a) {
+
+            this.name = n;
+            this.action = a;
+
+            rec = new Rectangle(300, 60, Color.BLACK);
+            Image img = new Image(name);
+            rec.setFill(new ImagePattern(img));
+            setAlignment(rec, Pos.CENTER);
 
             setOnMouseClicked(e -> action.run());
 
-            getChildren().addAll(bg, text);
+            getChildren().addAll(rec);// , imgv);
 
         }
     }
