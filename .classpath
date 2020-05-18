@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="lib" path="C:/Users/nkala/OneDrive/Documents/GitHub/A-Link-Between-Fists/lib/fxgl-11.8-uber.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nkala/OneDrive/Documents/GitHub/A-Link-Between-Fists/lib/Jamepad.jar"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

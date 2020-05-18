@@ -1,11 +1,8 @@
 package src.view;
 
-//import java.io.File;
-
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
-//import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -15,13 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-//import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.image.Image;
-//import javafx.scene.image.ImageView;
-//import java.io.File;
-//import java.util.Collection;
-//import javafx.scene.image.ImageView;
 
 public class LBTMainMenu extends FXGLMenu {
 
@@ -32,7 +24,7 @@ public class LBTMainMenu extends FXGLMenu {
         LBTButton btnSettings = new LBTButton("/assets/textures/settings.png", () -> {});
         LBTButton btnExit = new LBTButton("/assets/textures/exit.png", () -> fireExit());
 
-        var box = new VBox(15, btnNewGame, btnSettings, btnExit);
+        VBox box = new VBox(15, btnNewGame, btnSettings, btnExit);
         box.setAlignment(Pos.CENTER);
         box.setTranslateX(FXGL.getAppWidth() / 2 - 200 / 2);
         box.setTranslateY(FXGL.getAppHeight() / 2 - 40 / 2);

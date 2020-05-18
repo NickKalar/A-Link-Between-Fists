@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - LinkBetweenFists",
+            "request": "launch",
+            "mainClass": "src.application.LinkBetweenFists",
+            "projectName": "A-Link-Between-Fists_811dba42"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - LinkBetweenFists",
+            "request": "launch",
+            "mainClass": "src.application.LinkBetweenFists",
+            "projectName": "A-Link-Between-Fists_cf2e5ced"
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}"

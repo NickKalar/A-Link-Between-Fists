@@ -101,12 +101,12 @@ public class Link extends Pane {
         return 0;
     }
 
-    private void placeBomb(){
-        //place bomb
-    }
-
-    private void shootArrow() {
-        //check direction link is pointed
-        //shot arrow in that direction
-    }
+//    private void placeBomb(){
+//        //place bomb
+//    }
+//
+//    private void shootArrow() {
+//        //check direction link is pointed
+//        //shot arrow in that direction
+//    }
 }
