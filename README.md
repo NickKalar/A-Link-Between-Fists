@@ -8,18 +8,11 @@ This project is designed to familiarize the contributers to concepts within soft
 
 ## Compiling and running
 
-After cloning, compile using javac and run with java.
+After cloning, cd into the directory and run the .jar file with the latest version of the JDK.
 
-Linux:
-```bash
-javac src/application/LinkBetweenFists.java
-java src/application/LinkBetweenFists
 ```
-
-Windows:
-```bash
-javac src\application\LinkBetweenFists.java
-java src\application\LinkBetweenFists
+cd <file_path>
+java -jar A-Link-Between-Fists.jar
 ```
 
 ## Contributing
